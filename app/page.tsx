@@ -126,6 +126,7 @@ export default function LandingPrincipal() {
                     playsInline
                     loop
                     preload="auto"
+                    controls
                   >
                     <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/minhaia-ponte-NElvAf2sdZKT7RuwxdRC3AwwWTH1hZ.mp4" type="video/mp4" />
                   </video>
