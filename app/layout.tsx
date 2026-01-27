@@ -51,7 +51,7 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Mantemos o noscript padrão (não afeta a lógica do browser) */}
+        {/* Noscript padrão */}
         <noscript>
           <img
             height="1"

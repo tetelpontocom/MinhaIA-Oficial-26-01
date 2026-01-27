@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-function trackFBEvent(eventName: string, payload?: Record<string, unknown>) {
+function trackFB(eventName: string, payload?: Record<string, unknown>) {
   try {
     if (typeof window !== "undefined" && window.fbq) {
       window.fbq("track", eventName, payload || {})
@@ -24,15 +24,13 @@ function trackFBEvent(eventName: string, payload?: Record<string, unknown>) {
 export default function LandingPrincipal() {
   const [isFromTetel, setIsFromTetel] = useState(false)
 
-  // Eventos mínimos e limpos (baseline canônica)
+  // Baseline canônica: PageView + 1x ViewContent (e acabou)
   useEffect(() => {
-    // PageView — agora no page.tsx (layout só faz bootstrap)
-    trackFBEvent("PageView")
+    trackFB("PageView")
 
-    // ViewContent único (evita duplicação e “ensino errado”)
     const timer = setTimeout(() => {
-      trackFBEvent("ViewContent", {
-        content_name: "LP Minha IA - Principal (Baseline)",
+      trackFB("ViewContent", {
+        content_name: "LP Minha IA — Principal (Baseline)",
         content_category: "landing",
         currency: "BRL",
       })
@@ -41,7 +39,7 @@ export default function LandingPrincipal() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Regra de retorno ao ecossistema (sem SSR, tudo dentro de useEffect)
+  // Regra de retorno ao ecossistema (V0 Free Safe Mode)
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search)
@@ -69,15 +67,7 @@ export default function LandingPrincipal() {
             <div className="order-1 md:order-1 flex justify-center">
               <div className="rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 shadow w-full max-w-xs">
                 <div className="relative aspect-[9/16] bg-zinc-900">
-                  <video
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    playsInline
-                    loop
-                    preload="auto"
-                    controls
-                  >
+                  <video className="w-full h-full object-cover" autoPlay muted playsInline loop preload="auto" controls>
                     <source
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/minhaia-ponte-NElvAf2sdZKT7RuwxdRC3AwwWTH1hZ.mp4"
                       type="video/mp4"
@@ -94,8 +84,7 @@ export default function LandingPrincipal() {
               </h1>
 
               <p className="text-zinc-300 mb-5 max-w-2xl mx-auto md:mx-0">
-                Essa página existe para te mostrar, com calma, o que é a Minha IA — e se ela realmente faz sentido para o
-                seu momento.
+                Essa página existe para te mostrar, com calma, o que é a Minha IA — e se ela realmente faz sentido para o seu momento.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-start justify-center">
@@ -118,7 +107,7 @@ export default function LandingPrincipal() {
                 </a>
               </div>
 
-              {/* Caminho paralelo (não chama de downsell; sem preço; sem pressão) */}
+              {/* Caminho paralelo (sem chamar de downsell; sem preço; sem pressão) */}
               <div className="mt-4 text-sm text-zinc-300">
                 <a href={ESSENCIAL_URL} target="_blank" rel="noopener noreferrer" className="underline">
                   Prefiro começar com calma (Essencial)
@@ -136,8 +125,7 @@ export default function LandingPrincipal() {
         <div className="max-w-5xl mx-auto px-4 text-center">
           <h3 className="text-2xl font-bold mb-4">O que é a Minha IA?</h3>
           <p className="text-zinc-300 max-w-3xl mx-auto">
-            A Minha IA é um sistema de apoio contínuo. Ela conversa com você, organiza ideias, sugere caminhos e te
-            acompanha nas decisões do dia a dia.
+            A Minha IA é um sistema de apoio contínuo. Ela conversa com você, organiza ideias, sugere caminhos e te acompanha nas decisões do dia a dia.
           </p>
         </div>
       </section>
@@ -152,7 +140,7 @@ export default function LandingPrincipal() {
         </div>
       </section>
 
-      {/* Retorno institucional (somente quando veio do ecossistema) */}
+      {/* Retorno institucional */}
       {isFromTetel && (
         <section className="border-t border-zinc-800 bg-zinc-950 text-center py-8">
           <a
